@@ -1,0 +1,83 @@
+<html>
+    <head>
+        <title> Weather Report</title>
+        <style>
+            *{
+             padding: 0;
+             margin: 0;
+             box-sizing: border-box;
+             font-family: 'Times New Roman', Times, serif;
+             text-align: center;
+                
+            }
+            body{
+                background-color: aqua;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+            }
+
+            h1{
+                padding: 5px;
+            }
+
+            .cointainer{
+                background-color:whitesmoke;
+                text-align: center;
+                height: auto;
+                width: 350px;
+                justify-content: center;
+                align-items: center;
+                margin: 10px;
+                border: 2px solid black;
+                border-radius: 7px;  
+                padding-bottom: 20px;  
+            }
+
+            .search-box{
+                padding-bottom: 5px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="cointainer">
+            <h1> Weather app</h1>
+            <div class="search-box">
+                <input type="text" placeholder="Enter city name" id="city">
+                <button onclick="getapidata()">search</button>
+            </div>
+            <div class="weather-box">
+                <h2 id="name"></h2>
+                <h1 id="temp"></h1>
+                <h2 id="state"></h2>
+                <h3 id="humid"></h3>
+            </div>
+        </div>
+
+        
+        <script>
+            async function getapidata(){
+                let city = document.getElementById('city')
+                console.log(city.value)
+                let url= `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&units=metric&appid=466ddaa21a8de191e9f608bd11a56acb`
+                let data = await fetch(url)
+                let weatherdata = await data.json()
+                /*console.log(city.value)*/
+                console.log(weatherdata)
+
+                let name = document.getElementById('name')
+                name.innerHTML = city.value
+                let temp = document.getElementById('temp')
+                temp.innerHTML = weatherdata.main.temp
+                let state = document.getElementById('state')
+                state.innerHTML = weatherdata.weather[0].main
+                let h = document.getElementById('humid')
+                h.innerHTML = weatherdata.main.humidity
+
+            }
+        </script>
+    </body>
+</html>

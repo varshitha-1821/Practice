@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title> API Calls</title>
+    </head>
+    <body>
+        <script>
+            let apilink = 'https://fakestoreapi.com/products/'
+
+            fetch(apilink).then((val)=>val.json())
+            .then((data)=> console.log(data))
+            .catch((err)=> console.log(err))
+
+            async function getdata(){
+                let val = await fetch(apilink)
+                let data2 = await val.json()
+                console.log(data2)
+            }
+
+            getdata()
+        </script>
+    </body>
+</html>

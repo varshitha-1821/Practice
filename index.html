@@ -1,0 +1,191 @@
+<html>
+    <head>
+        <title> Search for an movie</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <style>
+            *{
+                padding: 0px;
+                margin: 0px;
+                box-sizing: border-box;
+                
+            }
+
+            body{
+                background: linear-gradient(to right, #f4c1e5, #db9fc7);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .cointainer{
+                background: rgba(213, 157, 213, 0.2);
+                backdrop-filter: blur(15px);
+                box-shadow: 0 8px 32px rgba(150,0,150,0.3);
+                height: auto;
+                width: auto;
+                border: 1px solid purple;
+                padding: 7px;
+                text-align: center;
+                border-radius: 15px;
+                position:relative;
+                overflow:hidden;
+            }
+
+            .cointainer>h1{
+                padding: 10px;
+                color: rgb(104, 4, 86);
+            }
+
+            button{
+                text-align: center;
+                border: 2px solid purple;
+                color: rgb(109, 5, 90);
+                display: inline-block;
+                background-color: rgb(220, 145, 220);
+                height: 50px;
+                border-radius: 15px;
+                padding: 6px;
+                margin: 10px;
+            }  
+            
+            
+            
+            button:hover{
+                background-color: purple;
+                color: white;
+                box-shadow: 0 0 15px rgba(180, 0, 180, 0.4);
+                cursor:pointer;
+                transform: scale(1.05)
+                transition: all 0.3s ease;
+            }
+            
+            input{
+                display: inline-block;
+                height: 50px;
+                text-align: center;
+                border: 2px solid purple;
+                border-radius: 10px;
+                background-color: rgb(220, 145, 220);
+                margin: 10px;
+
+                
+            }
+
+            #image{
+                border: 5px solid black;
+                border-radius: 15px;
+                display: none;
+                align-items: flex-start;
+                object-fit: cover;
+                height: 300px;
+                width: 250px;
+                margin: 15px;
+            }
+
+            #image:hover{
+                transform: scale(1.1);
+                transition: transform 0.3s ease;
+                
+            }
+
+            .movie-info{
+                display: flex;
+                height: auto;
+                width: auto;
+                align-items: center;
+
+            }
+
+            .details{
+                font-family: 'Lucida Sans';
+                margin-left: 10px;
+                color: purple;
+                margin: 15px;               
+                justify-items: center;
+                align-items: center;
+                text-align: center;
+                
+            }
+
+            .emoji {
+                position: absolute;
+                font-size: 1.8rem;
+                opacity: 0.3;
+                animation: drift 8s infinite ease-in-out;
+                pointer-events: none;
+                z-index: 0;
+            }   
+
+            @keyframes drift {
+                0%   { transform: translate(0px, 0px) rotate(0deg); }
+                25%  { transform: translate(30px, -40px) rotate(15deg); }
+                50%  { transform: translate(-20px, 30px) rotate(-10deg); }
+                75%  { transform: translate(40px, 20px) rotate(20deg); }
+                 100% { transform: translate(0px, 0px) rotate(0deg); }
+            }
+
+          .movie-info, h1, input, button {
+            position: relative;
+            z-index: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <span class="emoji" style="top:5%; left:10%;  animation-delay:0s;">🎬</span>
+        <span class="emoji" style="top:80%; left:20%; animation-delay:1s;">🎥</span>
+        <span class="emoji" style="top:15%; left:90%; animation-delay:2s;">🍿</span>
+        <span class="emoji" style="top:70%; left:40%; animation-delay:3s;">🎞️</span>
+        <span class="emoji" style="top:40%; left:75%;  animation-delay:0s;"><i class="fa-solid fa-clapperboard"></i></span>
+        <span class="emoji" style="top:55%; left:60%; animation-delay:1s;"> <i class="fa-regular fa-circle-play"></i> </span>
+        <span class="emoji" style="top:90%; left:70%; animation-delay:2s;"> <i class="fa-solid fa-compact-disc"></i></span>
+        <span class="emoji" style="top:50%; left:80%; animation-delay:3s;"> <i class="fa-solid fa-photo-film"></i></span>
+        <div class="cointainer">
+            <h1> Search an movie </h1>
+            <input type="text" id="movie" placeholder="Type your movie"> <button onclick="getdata()"> Get details </button>
+            <div class="movie-info">
+                <img id="image" alt="Image not available">
+                <div class="details">
+                    <h2 id="name" style="padding-bottom: 5px;"></h2>
+                    <h3 id="year" style="padding-bottom: 5px;"></h3>
+                    <h3 id="cast" style="padding-bottom: 5px;"></h3>            
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            
+            
+
+            async function getdata(){
+                let movie = document.getElementById('movie').value
+                let url = `https://www.omdbapi.com/?s=${movie}&apikey=192283e3`
+                let data = await fetch(url)
+                let mdata = await data.json()
+                console.log(movie)
+                console.log(mdata)  
+
+                let name = document.getElementById('name')
+                name.innerHTML = mdata.Search[0].Title
+
+                let y = document.getElementById('year')
+                year.innerHTML = mdata.Search[0].Year 
+
+                let t = document.getElementById('cast')
+                cast.innerHTML = mdata.Search[0].Type
+
+                let i = document.getElementById('image')
+                i.src = mdata.Search[0].Poster;
+                i.style.display = 'block'
+
+                document.getElementById('movie').value= " "
+
+            }
+
+            
+
+        </script>
+    </body> 
+    
+</html>
